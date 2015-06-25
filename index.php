@@ -6,7 +6,7 @@ class Wxpai
 {
 	private $token;
 	private $data=array();
-	private $reg_url = 'http://61.155.173.229:8080/myoa/oa/appRegister?username=s%&password=s%&idStr=s%';
+	private $reg_url = 'http://61.155.173.229:8080/myoa/oa/appRegister?username=%s&password=%s&idStr=%s';
 	
     public function index()  {
     	$thisurl = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -72,7 +72,6 @@ class Wxpai
     	}
     	$url = sprintf($this->reg_url, $username, $pwd, $idStr);
   		$result = $this->http_request($url);
-  		file_put_contents('/var/www/pinet-fenxiao/test', print_r($result, 1));
     	if (1) {
     		$msg = '';
     		$status = 'success';
