@@ -45,7 +45,7 @@ class Wxpai
         	switch ($msgtype) {
         		case 'text':
         			$this->data['Content'] = $data['Content'];
-        			$this->to_register_user($this->data['Content']);
+        			return $this->to_register_user($this->data['Content']);
         			break;
         		default:
         			break;
@@ -61,14 +61,18 @@ class Wxpai
     		$content = preg_replace('/^#R#/', '', $content);
     		$user = explode(',', $content);
     		if (count($user) != 3) {
-    			return array('输入的信息必须是用户名，密码，推荐人编号！', 'text');exit;
+    			return array('输入的信息必须是用户名，密码，推荐人编号三项！', 'text');exit;
     		}
     	}
-    	$username = $user[0];
-    	$pwd = $user[1];
-    	$idStr = $user[2];
+    	$username = trim($user[0]);
+    	$pwd = trim($user[1]);
+    	$idStr = trim($user[2]);
+    	if (empty($username) ||empty($pwd) || empty($idStr) ) {
+    		return array('输入的信息必须是用户名，密码，推荐人编号三项！', 'text');exit;
+    	}
     	$url = sprintf($this->reg_url, $username, $pwd, $idStr);
-    	//$result = $this->http_request($url);
+  		$result = $this->http_request($url);
+  		file_put_contents('/var/www/pinet-fenxiao/test', print_r($result, 1));
     	if (1) {
     		$msg = '';
     		$status = 'success';
