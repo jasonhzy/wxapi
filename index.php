@@ -26,7 +26,6 @@ class Wxpai
 		if (!function_exists('dom_import_simplexml')){
 			exit('dom_import_simplexml function not exist');
 		}
-		$this->token = $this->_get('token', "htmlspecialchars");
 		if(!preg_match("/^[0-9a-zA-Z]{3,42}$/", $this->token)){
 			exit('error token');
 		}
@@ -105,5 +104,6 @@ class Wxpai
 		curl_close($curl);
 		return json_decode($result);
     }
-    
 }
+$wechat = new Wxpai();
+$wechat->index();

@@ -101,7 +101,7 @@ class Wechat {
 			}
 		}
 	}
-	private function auth($token, $wxuser = '') {
+	private function auth($token) {
 		$signature = $_GET["signature"];
 		$timestamp = $_GET["timestamp"];
 		$nonce = $_GET["nonce"];
