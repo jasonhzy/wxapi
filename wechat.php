@@ -1,21 +1,21 @@
 <?php
 class Wechat {
+	
 	public $token;
-	public $wxuser;
-	public $pigsecret;
 	private $data = array();
-	public function __construct($token, $wxuser = '') {
-		$this->auth($token, $wxuser) || exit;
+	
+	public function __construct($token) {
+		$this->auth($token) || exit;
 		if (IS_GET) {
 			echo($_GET['echostr']);
 			exit;
 		}else {
 			$this->token = $token;
-			$xml = file_get_contents("php://input");
-			$xml = new SimpleXMLElement($xml);
-			foreach ($xml as $key => $value) {
-				$this->data[$key] = strval($value);
-			}
+			$xml = $GLOBALS["HTTP_RAW_POST_DATA"];
+	        if(empty($xml)) {
+	            $xml = file_get_contents("php://input"); 
+	        }
+			$this->data = (array)simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
 		}
 	}
 	/**
@@ -105,10 +105,6 @@ class Wechat {
 		$signature = $_GET["signature"];
 		$timestamp = $_GET["timestamp"];
 		$nonce = $_GET["nonce"];
-		if (!$wxuser) {
-		}
-		if ($wxuser && strlen($wxuser['pigsecret'])) {
-		}
 		$tmpArr = array($token, $timestamp, $nonce);
 		sort($tmpArr, SORT_STRING);
 		$tmpStr = implode($tmpArr);
@@ -116,9 +112,8 @@ class Wechat {
 		if (trim($tmpStr) == trim($signature)) {
 			return true;
 		}else {
-			return true;
+			return false;
 		}
-		return true;
 	}
 }
 ?>

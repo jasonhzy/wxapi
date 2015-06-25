@@ -1,10 +1,13 @@
 <?php
+define('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
+define('IS_GET',        REQUEST_METHOD =='GET' ? true : false);
 require_once './wechat.php';
-class index
+class Wxpai
 {
 	private $token;
 	private $data=array();
 	private $reg_url = 'http://61.155.173.229:8080/myoa/oa/appRegister?username=s%&password=s%&idStr=s%';
+	
     public function index()  {
     	$thisurl = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
    		$rt = explode('index.php', $thisurl);
@@ -51,7 +54,22 @@ class index
         }
     }
     
+    //#R#test123,123456,my2015155816
     private function to_register_user( $content = '' ){
+    	if (!preg_match('/^#R#/', $content)) {
+    		return array('输入的信息必须以"#R#"为前缀！', 'text');exit;
+    	}else{
+    		$content = preg_replace('/^#R#/', '', $content);
+    		$user = explode(',', $content);
+    		if (count($user) != 3) {
+    			return array('输入的信息必须是用户名，密码，推荐人编号！', 'text');exit;
+    		}
+    	}
+    	$username = $user[0];
+    	$pwd = $user[1];
+    	$idStr = $user[2];
+    	$url = sprintf($this->reg_url, $username, $pwd, $idStr);
+    	//$result = $this->http_request($url);
     	if (1) {
     		$msg = '';
     		$status = 'success';
