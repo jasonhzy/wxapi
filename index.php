@@ -72,10 +72,10 @@ class Wxpai
     	}
     	$url = sprintf($this->reg_url, $username, $pwd, $idStr);
   		$result = $this->http_request($url);
-    	if (1) {
+  		file_put_contents('/tmp/registeruser', print_r($result, 1), FILE_APPEND);
+    	if ($result) {
     		$msg = '';
-    		$status = 'success';
-    		switch ($status){
+    		switch ($result){
     			case 'exist':
     				$msg = '账号已存在！';
     				break;
@@ -105,7 +105,7 @@ class Wxpai
 		}
 		$result = curl_exec($curl);
 		curl_close($curl);
-		return json_decode($result);
+		return $result;
     }
 }
 $wechat = new Wxpai();
