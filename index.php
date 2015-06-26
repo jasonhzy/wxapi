@@ -84,6 +84,7 @@ class Wxpai
     				break;
     			case 'success':
     				$msg = '注册成功！';
+    				break;
     			default:
     				$msg = '您的注册未成功！';
     				break;
