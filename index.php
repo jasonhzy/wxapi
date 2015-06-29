@@ -39,7 +39,24 @@ class Wxpai
     
     private function reply($data){
         if (isset($data['Event'])) {
-        	
+        	$event = strtolower($data['Event']);
+        	switch ($event) {
+        		case 'subscribe': //关注后
+        			return array('感谢您的关注，如需注册，请输入以#R#开头，包括用户名、密码、推荐人编号三项并且用英文逗号进行分割，如#R#test123,123456,my20150606！', 'text');exit;
+        			break;
+        		case 'unsubscribe'://取消关注
+        			break;
+        		case 'location'://自动获取位置回复
+        			break;
+        		case 'scan':
+        			break;
+        		case 'masssendjobfinish':
+        			break;
+        		case 'click':
+        			break;
+        		default:
+        			break;
+        	}
         }else if (isset($data['MsgType'])) {
         	$msgtype = strtolower($data['MsgType']);
         	switch ($msgtype) {
@@ -61,7 +78,7 @@ class Wxpai
     		$content = preg_replace('/^#R#/', '', $content);
     		$user = explode(',', $content);
     		if (count($user) != 3) {
-    			return array('输入的信息必须是用户名，密码，推荐人编号三项！', 'text');exit;
+    			return array('输入的信息必须是用户名，密码，推荐人编号三项且以英文的逗号进行分割！', 'text');exit;
     		}
     	}
     	$username = trim($user[0]);
