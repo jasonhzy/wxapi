@@ -76,9 +76,10 @@ class Wxpai
     		return array('输入的信息必须以"#R#"为前缀！', 'text');exit;
     	}else{
     		$content = preg_replace('/^#R#/', '', $content);
+    		$content = str_replace('，', ',', $content);
     		$user = explode(',', $content);
     		if (count($user) != 3) {
-    			return array('输入的信息必须是用户名，密码，推荐人编号三项且以英文的逗号进行分割！', 'text');exit;
+    			return array('输入的信息必须是用户名，密码，推荐人编号三项且以逗号进行分割！', 'text');exit;
     		}
     	}
     	$username = trim($user[0]);
@@ -100,7 +101,7 @@ class Wxpai
     				$msg = '推荐人不存在！';
     				break;
     			case 'success':
-    				$msg = '注册成功！';
+    				$msg = '注册成功，请用手机下载“名饮店”软件进行安装，然后用注册账号及密码进行登录，即可领取千元优惠券！';
     				break;
     			default:
     				$msg = '您的注册未成功！';
