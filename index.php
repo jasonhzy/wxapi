@@ -77,6 +77,7 @@ class Wxpai
     	}else{
     		$content = preg_replace('/^#R#/', '', $content);
     		$content = str_replace('，', ',', $content);
+    		$content = str_replace(array("\r\n", "\n", "\r"), '', $content);
     		$user = explode(',', $content);
     		if (count($user) != 3) {
     			return array('输入的信息必须是用户名，密码，推荐人编号三项且以逗号进行分割！', 'text');exit;
