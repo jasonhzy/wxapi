@@ -1,9 +1,9 @@
 <?php
 class Wechat {
-	
+
 	public $token;
 	private $data = array();
-	
+
 	public function __construct($token) {
 		$this->auth($token) || exit;
 		if (IS_GET) {
@@ -12,9 +12,9 @@ class Wechat {
 		}else {
 			$this->token = $token;
 			$xml = $GLOBALS["HTTP_RAW_POST_DATA"];
-	        if(empty($xml)) {
-	            $xml = file_get_contents("php://input"); 
-	        }
+			if(empty($xml)) {
+				$xml = file_get_contents("php://input"); 
+			}
 			$this->data = (array)simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
 		}
 	}
@@ -74,7 +74,7 @@ class Wechat {
 			list($articles[$key]['Title'], $articles[$key]['Description'], $articles[$key]['PicUrl'], $articles[$key]['Url']) = $value;
 			if ($key >= 9) {
 				break;
-            }//最多只允许10调新闻
+			}//最多只允许10调新闻
 		}
 		$this->data['ArticleCount'] = count($articles);
 		$this->data['Articles'] = $articles;
@@ -84,9 +84,9 @@ class Wechat {
 	}
 	private function data2xml($xml, $data, $item = 'item') {
 		foreach ($data as $key => $value) {
-                         /* 指定默认的数字key */
+			/* 指定默认的数字key */
 			is_numeric($key) && $key = $item;
-                        /* 添加子元素 */
+			/* 添加子元素 */
 			if (is_array($value) || is_object($value)) {
 				$child = $xml->addChild($key);
 				$this->data2xml($child, $value, $item);
